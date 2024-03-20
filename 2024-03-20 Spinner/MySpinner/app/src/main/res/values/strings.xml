@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Spinner Application</string>
+    <string name="name">Name</string>
+    <string name="save_button">Save</string>
+    <string name="save_msg">Content Saved</string>
+    <string name="load_button">Load</string>
+</resources>
