@@ -12,12 +12,10 @@ class CityDetailsActivity : AppCompatActivity() {
             .setContentView<ActivityCityDetailsBinding>(this,
                 R.layout.activity_city_details)
 
-        if(Singleton.citySelected >= 0){
-            Singleton.cities[Singleton.citySelected].apply {
+        Singleton.citySelected?.apply {
                 binding.nameEditText.setText(name)
                 binding.populationEditText.setText(population.toString())
                 binding.capitalCheckBox.isChecked = isCapital
-            }
         }
 
         binding.saveButton.setOnClickListener {
@@ -25,13 +23,14 @@ class CityDetailsActivity : AppCompatActivity() {
             val population = binding.populationEditText.text
                 .toString().toInt()
             val isCapital = binding.capitalCheckBox.isChecked
-            if (Singleton.citySelected < 0) {
-                Singleton.cities.add(City(name, population, isCapital))
+            if (Singleton.citySelected == null) {
+                Singleton.add(City(0, name, population, isCapital))
             }else{
-                Singleton.cities[Singleton.citySelected].apply{
+                Singleton.citySelected?.apply{
                     this.name = name
                     this.population = population
                     this.isCapital = isCapital
+                    Singleton.update(this)
                 }
             }
             finish()

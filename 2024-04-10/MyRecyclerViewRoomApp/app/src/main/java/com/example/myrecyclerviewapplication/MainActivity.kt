@@ -14,33 +14,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(
             this, R.layout.activity_main)
+        Singleton.setContext(this)
         binding.mainRecyclerView.adapter =
             CityAdapter(object : CityAdapter.OnCityClickListener{
                 override fun onCityClick(view: View, position: Int) {
-                    Singleton.citySelected = position
+                    Singleton.citySelected = Singleton.cities[position]
                     val intent = Intent(this@MainActivity,
                         CityDetailsActivity::class.java)
                     startActivity(intent)
                 }
 
                 override fun onCityLongClick(view: View, position: Int) {
-                    Singleton.cities.removeAt(position)
+                    Singleton.delete(Singleton.cities[position])
                     binding.
                     mainRecyclerView.
                     adapter?.notifyItemRemoved(position)
                 }
             })
 
-        for (i in 0..10){
-            Singleton.cities.add(
-                City("City $i",i)
-            )
-        }
         binding.mainRecyclerView.layoutManager =
             LinearLayoutManager(this)
 
         binding.addButton.setOnClickListener {
-            Singleton.citySelected = -1
+            Singleton.citySelected = null
             val intent = Intent(this,
                 CityDetailsActivity::class.java)
             startActivity(intent)
